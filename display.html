@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>แสดงสถานะอุปกรณ์</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .card:hover {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            transition: 0.3s ease-in-out;
+        }
+
+        .status-text {
+            font-size: 36px;
+            margin: 20px 0 10px;
+        }
+
+        .status-on {
+            color: #2e7d32;
+        }
+
+        .status-off {
+            color: #c62828;
+        }
+
+        img.status-img {
+            width: 160px;
+            height: auto;
+            margin: 20px 0;
+        }
+
+        .updated-time {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h2>สถานะอุปกรณ์</h2>
+        <div id="status" class="status-text">กำลังโหลด...</div> <img id="statusImg" class="status-img" src=""
+            alt="สถานะอุปกรณ์" style="display: none;" />
+        <div class="updated-time" id="updatedTime"></div>
+    </div>
+    <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBGDZI2Tw0eLZ6RHrL-xsCtmqecLoyBn5w",
+        authDomain: "myg4iot-eba67.firebaseapp.com",
+        projectId: "myg4iot-eba67",
+        storageBucket: "myg4iot-eba67.firebasestorage.app",
+         messagingSenderId: "292161340296",
+        appId: "1:292161340296:web:8701a182a0f7c48f3c303d",
+        measurementId: "G-D1W7CKZGJM"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const statusDiv = document.getElementById("status");
+
+    db.collection("devices").doc("device1")
+      .onSnapshot((doc) => {
+        if (doc.exists) {
+          const status = doc.data().status;
+          if (status === 1) {
+            statusDiv.textContent = "เปิด";
+            statusDiv.className = "status-on";
+          } else {
+            statusDiv.textContent = "ปิด";
+            statusDiv.className = "status-off";
+          }
+        } else {
+          statusDiv.textContent = "ไม่มีข้อมูล";
+        }
+      });
+  </script>
+</body>
+
+</html>

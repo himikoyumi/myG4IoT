@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Switch</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+      margin-top: 100px;
+    }
+    .card {
+      background: #fff;
+        border-radius: 16px;
+        padding: 40px 30px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        text-align: center;
+        width: 90%;
+        max-width: 400px;
+    }
+    button {
+      font-size: 24px;
+      padding: 15px 40px;
+      margin: 10px;
+      cursor: pointer;
+    }
+    .on {
+      background-color: green;
+      color: white;
+    }
+    .off {
+      background-color: red;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ควบคุมสถานะอุปกรณ์</h1>
+  <button class="on" onclick="setStatus(1)">เปิด</button>
+  <button class="off" onclick="setStatus(0)">ปิด</button>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+        apiKey: "AIzaSyBGDZI2Tw0eLZ6RHrL-xsCtmqecLoyBn5w",
+            authDomain: "myg4iot-eba67.firebaseapp.com",
+            projectId: "myg4iot-eba67",
+            storageBucket: "myg4iot-eba67.firebasestorage.app",
+            messagingSenderId: "292161340296",
+            appId: "1:292161340296:web:8701a182a0f7c48f3c303d",
+            measurementId: "G-D1W7CKZGJM"
+    };
+
+    // Init Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Function to set status
+    function setStatus(value) {
+      db.collection("devices").doc("device1").set({
+        status: value
+      }).then(() => {
+        alert("สถานะถูกเปลี่ยนเป็น " + value);
+      }).catch((error) => {
+        console.error("เกิดข้อผิดพลาด: ", error);
+      });
+    }
+  </script>
+
+</body>
+</html>
